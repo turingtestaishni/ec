@@ -21,7 +21,9 @@
 
       The following libraries did not have a version match so I installed the latest version: `numpy==1.22.3`, `pillow==9.1.0`, `pygame==2.1.2`, `pyzmq==22.3.0`, `scikit-learn==1.0.2`, `multiprocess==0.70.12.2` are latest versions.
 
-5. Representation
+## Inspecting files
+Understanding the main structure of the code using [Software Architecture doc](https://github.com/turingtestaishni/ec/blob/master/docs/software-architecture.md)
+1. Representation
       Programs are lambda-calculus expressions. These are represented using the de Bruijn notation which avoids complications caused by variable names. [This handout](https://www.cs.cornell.edu/courses/cs4110/2018fa/lectures/lecture15.pdf) from Cornell provides a good guide for working with this representation.
 
       A bound variable can be viewed as a pointer to the lambda that binds it. Example, the y in λx.λy.y x points to the first λ and the x points to the second λ when read from rightmost lambda (index 0) to left (index increments by 1).  
@@ -42,12 +44,12 @@
 
       Index shifting can happen.
 
-6. Structure of different program types
+2. Structure of different program types
       `Primitive` program type specifies programs that make up the initial library.
 
       `Application` and `Abstraction` program types allow nesting of programs within programs during enumeration. 
 
-7. Every program object specifies a type attribute. There are various types:
+3. Every program object specifies a type attribute. There are various types:
             1. Ground types such as `int`, `bool`.
             2. Type variables such as `alpha`, `gamma`, `beta`.
             3. Types built from type constructors such as `list[int]`, `char->bool`, `alpha->list[alpha]`
@@ -59,7 +61,7 @@
       
       It seems `type.py` is not called anywhere so far, but has code to interact with json files and defines all the ground types and list types.
 
-8. `Grammar` has the initial library of code, and also includes the learned library of code. A `Grammar` object is made up of `Program` objects (`Primitive` and `Invented` programs) and a numerical weight that is used to calculate the probability of a given program being used when creating new programs. 
+4. `Grammar` has the initial library of code, and also includes the learned library of code. A `Grammar` object is made up of `Program` objects (`Primitive` and `Invented` programs) and a numerical weight that is used to calculate the probability of a given program being used when creating new programs. 
        `Grammar` data is input to `Enumeration` module as it creates programs from the current library.
        It is also input to the `Dream` module `helmholtz.ml` which generates training data for `recognition.py`. `compression.ml` updates the library. 
 
