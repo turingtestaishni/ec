@@ -65,6 +65,29 @@ Understanding the main structure of the code using [Software Architecture doc](h
        `Grammar` data is input to `Enumeration` module as it creates programs from the current library.
        It is also input to the `Dream` module `helmholtz.ml` which generates training data for `recognition.py`. `compression.ml` updates the library. 
 
+## Dreamcoder's Workflow
+(Conceptual)
+1. There should be some initial library 
+2. Dreaming and Program Enumeration occur parallelly using library in 1
+3. Recognition model gets trained
+4. Program Enumeration runs again using the recognition model
+5. Abstraction/Compression adds refactored code to the library
+6. Visualize library
+7. Checkpoints are saved to binary files using `pickle` (these can be used to resume training from some state or visualize the system performance during training/testing using the script `bin/graphs.py`) 
+
+(Programmatical Calls)
+1. User runs `dreamcoder.py` using cmd-ling args or a checkpoint file to resume training from some saved state. 
+
+This file has a class for ECResult which handles how the result is output to the user, and an ecIterator function which invokes all the  steps in one iteration of DreamCoder and yields the result. 
+There are some other functions that handle the output formatting, logging, and cmd-line arguments parsing. 
+
+The following steps get invoked
+      1. calls `dreaming.py` by calling the `backgroundHelmholtzEnumeration` function which creates multiple background workers to run Ocaml processes in parallel
+
+      generates dreams
+2. 
+
+
 # Table of contents
 1. [Overview](#overview)
 2. [Getting Started](#getting-started)
