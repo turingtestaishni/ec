@@ -83,9 +83,12 @@ There are some other functions that handle the output formatting, logging, and c
 
 The following steps get invoked
       1. calls `dreaming.py` by calling the `backgroundHelmholtzEnumeration` function which creates multiple background workers to run Ocaml processes in parallel
-
-      generates dreams
-2. 
+     `dreaming.py` has two functions, one called `helmholtzEnumeration` and the other `backgroundHelmholtzEnumeration` which makes calls to the former asynchronously. The workers output a JSON response which is loaded and read as frontiers that need to be searched in a `get()` function.
+     There is a main function with simple grammar to test enumeration (I will try to run this code tonight).
+     
+      2.  in parallel, `enumeration.py` enumerates new programs from current library (isomorphic to generating dreams in step 1). It creates a new child process to run solver.ml which executes the enumeration. The user can use cmd-line-args to control how many CPUs this runs in parallel. 
+      `solver.ml` "generates programs that successfully solve the input tasks are represented in a lambda calculus and returned in JSON format to the parent Python process."
+      inspect solver.ml
 
 
 # Table of contents
