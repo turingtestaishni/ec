@@ -90,6 +90,8 @@ The following steps get invoked
       `solver.ml` "generates programs that successfully solve the input tasks are represented in a lambda calculus and returned in JSON format to the parent Python process."
       inspect solver.ml
 
+      3. 
+
 
 ## Running scripts
 1. Ran `python bin/logo.py --enumeration 1` but this returns `OSError: [Errno 8] Exec format error: './logoDrawString'` which occurs when the executable has been made for a different architecture. My machine is 64-bit. 
@@ -116,6 +118,20 @@ Ran `make clean`. I got this error `bin/sh: jbuilder: command not found make: **
 `opam install ppx_jane core re2 yojson vg cairo2 camlimages menhir ocaml-protoc zmq`
 `make clean` worked
 `make` worked but errors
+`Error: dune__exe__Protonet-tester corresponds to an invalid module name -> required by _build/default/solvers/.solver.eobjs/dune__exe.ml-gen -> required by _build/default/solvers/.solver.eobjs/native/dune__exe.cmx -> required by _build/default/solvers/solver.exe`
+The `dune__exe__` problem occurs because dune is building wrapped executables by default since version 2.0, I disabled this by adding `(wrapped_executables false)` in `dune-project` file. [Reference](https://github.com/ocaml/dune/issues/3518).
+`make` ran with just warnings. 
+
+`dune` treats warnings as errors so I followed the docs and created a file called `dune` in the root and made the warnings non-fatal. There still are some type errors utils.ml, parser.ml, CachingTable.ml, 
+
+I am going to try to run the singularity container
+
+-- looking at how judith fan implemented dreamcoder -- seems like they manually extracted the tower task into python files.
+
+
+
+
+
 
 # Table of contents
 1. [Overview](#overview)
