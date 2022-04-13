@@ -91,6 +91,32 @@ The following steps get invoked
       inspect solver.ml
 
 
+## Running scripts
+1. Ran `python bin/logo.py --enumeration 1` but this returns `OSError: [Errno 8] Exec format error: './logoDrawString'` which occurs when the executable has been made for a different architecture. My machine is 64-bit. 
+
+`Line 42` in `makeLogoTasks.py` invokes this binary file. The Makefile and bash script for logo are in `ec/data/geom`.  Could I make this executable on this machine? 
+
+In the `Create New Domains` doc there is a section that says we need to rebuild the ocaml binaries in root of the repo. I am going to try that. 
+
+Ran `make clean`. I got this error `bin/sh: jbuilder: command not found make: *** [all] Error 127` possibly because I am not running within the singularity container, so I need to install the Ocaml libraries dependencies first. 
+
+`opam update`
+`opam switch 4.06.1+flambda` this didn't work because I have opam 4.11.1
+``eval `opam config env`` 
+`opam install ppx_jane core re2 yojson vg cairo2 camlimages menhir ocaml-protoc zmq`
+
+`make` and `make clean` still didn't work, when I looked up the issue was that jbuilder has now been replaced with `dune` in `opam`. I just replaced all occurences of `jbuilder` in the `Makefile` in `root` with `dune`. `make clean` worked.
+
+`make` did not work, it complained that `File "jbuild", line 1 characters 0-0: Error: jbuild files are no longer supported, please convert this file to a dune file instead. Note: You can use "dune upgrade" to convert your project to dune.` 
+`eval $(opam config env)` no change
+`dune upgrade`
+`make clean` removed all files again
+`make` complained `library re2 not found`
+`opam switch default`
+`opam install ppx_jane core re2 yojson vg cairo2 camlimages menhir ocaml-protoc zmq`
+`make clean` worked
+`make` worked but errors
+
 # Table of contents
 1. [Overview](#overview)
 2. [Getting Started](#getting-started)

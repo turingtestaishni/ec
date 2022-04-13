@@ -1,12 +1,12 @@
 all:
 	rm -f data/geom/logoDrawString
 	cd solvers && \
-	  jbuilder build solver.exe && \
-	  jbuilder build versionDemo.exe && \
-	  jbuilder build helmholtz.exe && \
-	  jbuilder build logoDrawString.exe && \
-	  jbuilder build protonet-tester.exe && \
-	  jbuilder build compression.exe && \
+	  dune build solver.exe && \
+	  dune build versionDemo.exe && \
+	  dune build helmholtz.exe && \
+	  dune build logoDrawString.exe && \
+	  dune build protonet-tester.exe && \
+	  dune build compression.exe && \
 	  cp _build/default/compression.exe ../compression && \
 	  cp _build/default/versionDemo.exe ../versionDemo && \
 	  cp _build/default/solver.exe ../solver && \
@@ -18,7 +18,7 @@ all:
 	    ../data/geom/logoDrawString
 
 clean:
-	cd solvers && jbuilder clean
+	cd solvers && dune clean
 	rm -f solver
 	rm -f compression
 	rm -f helmholtz
